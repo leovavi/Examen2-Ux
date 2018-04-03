@@ -7,6 +7,7 @@ module Api::V1
 
 		def create
 			@tweet = Tweet.create(tweet_params)
+			@tweet.save
 			render json: @tweet
 		end
 
