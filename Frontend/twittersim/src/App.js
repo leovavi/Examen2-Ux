@@ -14,12 +14,6 @@ class App extends Component {
           <h1 className="App-title text-primary">Twitter Simulation</h1>
         </div>
         <div>
-          <TweetForm />
-          <button className="btn btn-primary" onClick={this.addNewTweet}>
-            New Tweet
-          </button>
-        </div>
-        <div>
           <TweetsContainer />
         </div>
       </div>

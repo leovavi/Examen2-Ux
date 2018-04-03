@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import Tweet from './Tweet';
 import update from 'immutability-helper';
+import TweetForm from './TweetForm';
 
 class TweetsContainer extends Component{
 	constructor(props){
@@ -12,24 +13,18 @@ class TweetsContainer extends Component{
 	}
 
 	componentDidMount(){
-		axios.get('http://localhost:3001/api/v1/tweets')
+		axios.get('https://examen2-ux-api.herokuapp.com/api/v1/tweets')
 			 .then(response => {
 			 	console.log(response);
 			 	this.setState({tweets: response.data})
 			 }).catch(err => console.log(err));
 	}
 
-	addNewTweet = () => {
+	addNewTweet = (tweet) => {
 		axios.post(
-			'http://localhost:3001/api/v1/tweets',
-			{
-				tweet: {
-					user: '',
-					tweet: ''
-				}
-			}
+			'https://examen2-ux-api.herokuapp.com/api/v1/tweets',
+			tweet
 		).then(response => {
-			console.log(response);
 			const tweets = update(this.state.tweets, {
 				$splice: [[0, 0, response.data]]
 			});
@@ -44,9 +39,14 @@ class TweetsContainer extends Component{
 	render() {
 		return (
 			<div>
-				{this.state.tweets.map((twt) => {
-					return (<Tweet tweet={twt} key={twt.id} />);
-				})}
+				<div>
+					<TweetForm onSubmit={this.addNewTweet}/>
+				</div>
+				<div>
+					{this.state.tweets.map((twt) => {
+						return (<Tweet tweet={twt} key={twt.id} />);
+					})}
+				</div>
 			</div>
 		)
 	}
